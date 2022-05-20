@@ -1,0 +1,27 @@
+{
+    "solutions": [
+        {"id": 1, "word": "great"},
+        {"id": 2, "word": "blame"},
+        {"id": 3, "word": "bless"},
+        {"id": 4, "word": "blink"},
+        {"id": 5, "word": "blush"},
+        
+        {"id": 6, "word": "money"},
+        {"id": 7, "word": "honey"},
+        {"id": 8, "word": "react"},
+        {"id": 9, "word": "refer"},
+        {"id": 10, "word": "unity"},
+
+        {"id": 11, "word": "makes"},
+        {"id": 12, "word": "plays"},
+        {"id": 13, "word": "moves"},
+        {"id": 14, "word": "walks"},
+        {"id": 15, "word": "picks"},
+
+        {"id": 16, "word": "saves"},
+        {"id": 17, "word": "sends"},
+        {"id": 18, "word": "sinks"},
+        {"id": 19, "word": "sizes"},
+        {"id": 20, "word": "soles"}
+    ]
+}

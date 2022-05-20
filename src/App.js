@@ -1,9 +1,29 @@
 import './App.css'
 
+import { useState, useEffect } from 'react';
+
 function App() {
+
+  const [solution, setSolution] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/solutions')
+      .then(response => response.json()
+        .then(json => {
+          const randomSolution = json[Math.floor(Math.random() * json.length)];
+          setSolution(randomSolution);
+        }
+        )
+      )
+  }, [setSolution.word]);
+
   return (
     <div className="App">
-      <h1>Wordle (Lingo)</h1>
+      <h1>Wordle (By Meeraj Adhikari)</h1>
+
+      <div className="container">
+        {solution && <div className="solution">Solution: {solution.word} </div>}
+      </div>
     </div>
   );
 }
