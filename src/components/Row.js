@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Row({ guess }) {
+export default function Row({ guess, currentGuess, isCorrect }) {
 
     if (guess) {
         return (
@@ -15,6 +15,30 @@ export default function Row({ guess }) {
             </div>
         )
     }
+
+    if (currentGuess) {
+        let currentGuessArray = currentGuess.split('');
+        return (
+            <div className="row currentGuess">
+                {
+                    currentGuessArray.map((letter, index) => (
+                        <div className="filled" key={index}>
+                            {letter}
+                        </div>
+                    ))
+                }
+
+                {[...Array(5 - currentGuessArray.length)].map((letter, index) => (
+                    <div className="empty" key={index}>
+
+                    </div>
+                ))}
+
+            </div>
+        )
+
+    }
+
 
     return (
         <div className="row">
