@@ -86,7 +86,7 @@ const useWordle = (solution) => {
 
             // check the length if it is equal to 5
             if (currentGuess.length !== 5) {
-                toast.error('5 chars maatrai hunchha bhai...');
+                toast.error('5 letters hunchha bhai...');
                 return;
             }
 
