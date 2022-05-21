@@ -14,7 +14,10 @@ function Wordle({ solution }) {
     }, [handleKeyUp]);
 
     return (
-        <div>Solution is: {currentGuess}</div>
+        <>
+            <div>Solution is: {solution.word}</div>
+            <div>Current Guess is: {currentGuess}</div>
+        </>
     )
 }
 

@@ -1,5 +1,8 @@
 import './App.css'
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { useState, useEffect } from 'react';
 import Wordle from './components/Wordle';
 
@@ -24,6 +27,8 @@ function App() {
 
       <div className="container">
         {solution && <Wordle solution={solution} />}
+
+        < ToastContainer theme='colored' />
       </div>
     </div>
   );
