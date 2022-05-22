@@ -21,9 +21,9 @@ const useWordle = (solution) => {
 
         // if the letter of formattedGuess is not at exact index to that of solutionArray but the letter is present, make the color yellow
         formattedGuess.forEach((l, index) => {
-            if (solutionArray.includes(l.letter)) {
+            if (solutionArray.includes(l.letter) && solutionArray.indexOf(l.letter) !== index) {
                 l.color = 'yellow';
-                solutionArray[solutionArray.indexOf(l.index)] = null;
+                solutionArray[solutionArray.indexOf(l.letter)] = null;
             }
         })
 
