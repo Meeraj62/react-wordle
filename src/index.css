@@ -69,6 +69,12 @@ h1 {
   animation-delay: 0.8s;
 }
 
+.row.currentGuess > div.filled {
+  background: #eee;
+  border-color: #ddd;
+  animation: bounce 0.2s ease-in-out forwards;
+}
+
 
 @keyframes flip {
   0% {
@@ -95,5 +101,22 @@ h1 {
     background: var(--background);
     border-color: var(--border-color);
     color: #fff;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+    border-color: #bbb;
+  }
+
+  50% {
+    transform: scale(1.2);
+    border-color: #bbb;
+  }
+
+  100% {
+    transform: scale(1);
+    border-color: #ddd;
   }
 }
