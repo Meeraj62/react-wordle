@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import useWordle from '../hooks/useWordle';
 import Grid from './Grid';
+import Keypad from './Keypad';
 
 function Wordle({ solution }) {
 
@@ -21,6 +22,7 @@ function Wordle({ solution }) {
 
             <Grid guesses={guesses} turn={turn} currentGuess={currentGuess} isCorrect={isCorrect} />
 
+            <Keypad />
         </>
     )
 }

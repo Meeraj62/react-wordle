@@ -23,5 +23,34 @@
         {"id": 18, "word": "sinks"},
         {"id": 19, "word": "sizes"},
         {"id": 20, "word": "soles"}
+    ],
+
+    "letters": [
+        {"key": "a"},
+        {"key": "b"},
+        {"key": "c"},
+        {"key": "d"},
+        {"key": "e"},
+        {"key": "f"},
+        {"key": "g"},
+        {"key": "h"},
+        {"key": "i"},
+        { "key": "j"},
+        { "key": "k"},
+        { "key": "l"},
+        { "key": "m"},
+        { "key": "n"},
+        { "key": "o"},
+        { "key": "p"},
+        { "key": "q"},
+        { "key": "r"},
+        { "key": "s"},
+        { "key": "t"},
+        { "key": "u"},
+        { "key": "v"},
+        { "key": "w"},
+        { "key": "x"},
+        { "key": "y"},
+        { "key": "z"}
     ]
 }
