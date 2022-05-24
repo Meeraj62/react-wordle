@@ -1,52 +1,40 @@
 import React from 'react'
 
-export default function Row({ guess, currentGuess, isCorrect }) {
+export default function Row({ guess, currentGuess }) {
 
-    if (guess) {
-        return (
-            <div className="row pastGuess">
-                {guess.map((letter, index) => {
-                    return (
-                        <div className={letter.color} key={index}>
-                            {letter.letter}
-                        </div>
-                    )
-                })}
-            </div>
-        )
-    }
+  if (guess) {
+    return (
+      <div className="row past">
+        {guess.map((l, i) => (
+          <div key={i} className={l.color}>{l.key}</div>
+        ))}
+      </div>
+    )
+  }
 
-    if (currentGuess) {
-        let currentGuessArray = currentGuess.split('');
-        return (
-            <div className="row currentGuess">
-                {
-                    currentGuessArray.map((letter, index) => (
-                        <div className="filled" key={index}>
-                            {letter}
-                        </div>
-                    ))
-                }
-
-                {[...Array(5 - currentGuessArray.length)].map((letter, index) => (
-                    <div className="empty" key={index}>
-
-                    </div>
-                ))}
-
-            </div>
-        )
-
-    }
-
+  if (currentGuess) {
+    let letters = currentGuess.split('')
 
     return (
-        <div className="row">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+      <div className="row current">
+        {letters.map((letter, i) => (
+          <div key={i} className="filled">{letter}</div>
+        ))}
+        {[...Array(5 - letters.length)].map((_,i) => (
+          <div key={i}></div>
+        ))}
+      </div>
     )
+  }
+
+  return (
+    <div className="row">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  )
+  
 }
