@@ -3,125 +3,115 @@ import { useState } from 'react'
 import { toast } from 'react-toastify';
 
 const useWordle = (solution) => {
+    const [turn, setTurn] = useState(0)
+    const [currentGuess, setCurrentGuess] = useState('')
+    const [guesses, setGuesses] = useState([...Array(6)]) // each guess is an array
+    const [history, setHistory] = useState([]) // each guess is a string
+    const [isCorrect, setIsCorrect] = useState(false)
+    const [usedKeys, setUsedKeys] = useState({}) // {a: 'grey', b: 'green', c: 'yellow'} etc
 
-    const [turn, setTurn] = useState(0);
-    const [currentGuess, setCurrentGuess] = useState('');
-    const [guesses, setGuesses] = useState([...Array(6)]);
-    const [history, setHistory] = useState([]);
-    const [isCorrect, setIsCorrect] = useState(false);
-
-    // format a guess into an array of letter objects
-    // e.g. 'hello' => [{letter: 'h', color: 'green'}, {letter: 'e', color: 'green'}, {letter: 'l', color: 'green'}, {letter: 'l', color: 'green'}, {letter: 'o', color: 'green'}]
+    // format a guess into an array of letter objects 
+    // e.g. [{key: 'a', color: 'yellow'}]
     const formatGuess = () => {
-        let solutionArray = [...solution.word];
+        let solutionArray = [...solution]
+        let formattedGuess = [...currentGuess].map((l) => {
+            return { key: l, color: 'grey' }
+        })
 
-        let formattedGuess = [...currentGuess].map((letter, index) => {
-            return { letter: letter, color: 'grey' };
-        });
-
-        // if the letter of formattedGuess is not at exact index to that of solutionArray but the letter is present, make the color yellow
-        formattedGuess.forEach((l, index) => {
-            if (solutionArray.includes(l.letter) && solutionArray.indexOf(l.letter) !== index) {
-                l.color = 'yellow';
-                solutionArray[solutionArray.indexOf(l.letter)] = null;
+        // find any green letters
+        formattedGuess.forEach((l, i) => {
+            if (solution[i] === l.key) {
+                formattedGuess[i].color = 'green'
+                solutionArray[i] = null
             }
         })
 
-        // if the letter of formattedGuess is at exact index to that of solutionArray, make the color green
-        formattedGuess.forEach((l, index) => {
-            if (solutionArray[index] === l.letter) {
-                l.color = 'green';
-                solutionArray[index] = null;
+        // find any yellow letters
+        formattedGuess.forEach((l, i) => {
+            if (solutionArray.includes(l.key) && l.color !== 'green') {
+                formattedGuess[i].color = 'yellow'
+                solutionArray[solutionArray.indexOf(l.key)] = null
             }
         })
 
-        return formattedGuess;
-
+        return formattedGuess
     }
 
-    // add a new guess to the guesses array
+    // add a new guess to the guesses state
     // update the isCorrect state if the guess is correct
-    // update the turn state
-    const addNewGuess = (formatted) => {
-        // if current guess is already the solution
+    // add one to the turn state
+    const addNewGuess = (formattedGuess) => {
         if (currentGuess === solution) {
-            setIsCorrect(true);
+            setIsCorrect(true)
         }
-
-        // save guesses to the setGuesses 
-        setGuesses((prevGuesses) => {
-            let newGuesses = [...prevGuesses];
-            newGuesses[turn] = formatted
+        setGuesses(prevGuesses => {
+            let newGuesses = [...prevGuesses]
+            newGuesses[turn] = formattedGuess
             return newGuesses
         })
-
-        //save guesses to history
-        setHistory((prevHistory) => {
-            return [...prevHistory, currentGuess];
+        setHistory(prevHistory => {
+            return [...prevHistory, currentGuess]
         })
-
-        // update Turn
-        setTurn((prevTurn) => {
-            return prevTurn + 1;
+        setTurn(prevTurn => {
+            return prevTurn + 1
         })
+        setUsedKeys(prevUsedKeys => {
+            formattedGuess.forEach(l => {
+                const currentColor = prevUsedKeys[l.key]
 
-        // empty the current guess for the new row
+                if (l.color === 'green') {
+                    prevUsedKeys[l.key] = 'green'
+                    return
+                }
+                if (l.color === 'yellow' && currentColor !== 'green') {
+                    prevUsedKeys[l.key] = 'yellow'
+                    return
+                }
+                if (l.color === 'grey' && currentColor !== ('green' || 'yellow')) {
+                    prevUsedKeys[l.key] = 'grey'
+                    return
+                }
+            })
+
+            return prevUsedKeys
+        })
         setCurrentGuess('')
-
     }
 
-    // handle keypresses
-    // if the key is a letter then add it to the current guess
-    // if the key is delete then remove the last letter from the current guess
-    // if the key is enter then add the current guess to the guesses array
-    const handleKeyUp = ({ key }) => {
-
+    // handle keyup event & track current guess
+    // if user presses enter, add the new guess
+    const handleKeyup = ({ key }) => {
         if (key === 'Enter') {
-
-            // check if the turn has exceeded
+            // only add guess if turn is less than 5
             if (turn > 5) {
                 toast.error('5 choti haanis ta bhai...')
-                return;
+                return
             }
-
-            // check the length if it is equal to 5
-            if (currentGuess.length !== 5) {
-                toast.error('5 letters hunchha bhai...');
-                return;
-            }
-
-            // check if the word is a duplicate word
+            // do not allow duplicate words
             if (history.includes(currentGuess)) {
                 toast.error('Eutai galti feri nagarna bhai...');
-                return;
+                return
             }
-
-
-            const formatted = formatGuess();
+            // check word is 5 chars
+            if (currentGuess.length !== 5) {
+                toast.error('5 letters hunchha bhai...');
+                return
+            }
+            const formatted = formatGuess()
             addNewGuess(formatted)
         }
-
         if (key === 'Backspace') {
-            setCurrentGuess((previous) => {
-                return previous.slice(0, -1);
-            })
-            return;
+            setCurrentGuess(prev => prev.slice(0, -1))
+            return
         }
-
         if (/^[A-Za-z]$/.test(key)) {
             if (currentGuess.length < 5) {
-                setCurrentGuess((previous) => {
-                    return previous + key;
-                })
+                setCurrentGuess(prev => prev + key)
             }
         }
-
     }
 
-    return { turn, currentGuess, guesses, isCorrect, handleKeyUp }
-
-
+    return { turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyup }
 }
-
 
 export default useWordle

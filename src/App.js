@@ -1,37 +1,30 @@
-import './App.css'
+import { useEffect, useState } from 'react'
+import Wordle from './components/Wordle'
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { useState, useEffect } from 'react';
-import Wordle from './components/Wordle';
-
 function App() {
-
-  const [solution, setSolution] = useState(null);
+  const [solution, setSolution] = useState(null)
 
   useEffect(() => {
     fetch('http://localhost:3001/solutions')
-      .then(response => response.json()
-        .then(json => {
-          const randomSolution = json[Math.floor(Math.random() * json.length)];
-          setSolution(randomSolution);
-        }
-        )
-      )
-  }, [setSolution.word]);
+      .then(res => res.json())
+      .then(json => {
+        // random int between 0 & 14
+        const randomSolution = json[Math.floor(Math.random() * json.length)]
+        setSolution(randomSolution.word)
+      })
+  }, [setSolution])
 
   return (
     <div className="App">
-      <h1>Wordle (By Meeraj Adhikari)</h1>
+      <h1>Wordle (Meeraj Adhikari)</h1>
+      {solution && <Wordle solution={solution} />}
 
-      <div className="container">
-        {solution && <Wordle solution={solution} />}
-
-        < ToastContainer theme='colored' />
-      </div>
+      <ToastContainer theme='colored' />
     </div>
-  );
+  )
 }
 
 export default App

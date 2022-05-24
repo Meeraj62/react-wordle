@@ -1,27 +1,24 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
-export default function Keypad() {
+export default function Keypad({ usedKeys }) {
+  const [letters, setLetters] = useState(null)
 
-    const [letters, setLetters] = useState(null);
+  useEffect(() => {
+    fetch('http://localhost:3001/letters')
+      .then(res => res.json())
+      .then(json => {
+        setLetters(json)
+      })
+  }, [])
 
-    useEffect(() => {
-        fetch('http://localhost:3001/letters')
-            .then(response => response.json())
-            .then(data => {
-                setLetters(data);
-            })
-    }, [letters])
-
-    return (
-        <div className='keypad'>
-            {letters && letters.map((letter) => {
-                return (
-                    <div key={letter.key}>
-                        {letter.key}
-                    </div>
-                )
-            })}
-        </div>
-    )
+  return (
+    <div className="keypad">
+      {letters && letters.map(l => {
+        const color = usedKeys[l.key]
+        return (
+          <div key={l.key} className={color}>{l.key}</div>
+        )
+      })}
+    </div>
+  )
 }
